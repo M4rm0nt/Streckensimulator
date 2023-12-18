@@ -8,7 +8,7 @@ public class Fahrzeug {
     public Fahrzeug(Teststrecke teststrecke, String bezeichnung) {
         this.teststrecke = teststrecke;
         this.bezeichnung = bezeichnung;
-        this.position = -1; // -1 bedeutet, dass das Fahrzeug in der Garage ist
+        this.position = -1; //
         this.aufStrecke = false;
         this.angehalten = false;
     }
@@ -37,12 +37,10 @@ public class Fahrzeug {
             if (teststrecke.istWeicheZurGarageOffen() && position == 170) {
                 aufStrecke = false;
                 position = -1;
-                System.out.println(bezeichnung + " ist jetzt in der Garage."); // Debugging-Ausgabe
                 teststrecke.schliesseWeicheZurGarage();
             }
         }
     }
-
 
     public int getPosition() {
         return position;

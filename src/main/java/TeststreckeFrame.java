@@ -73,7 +73,7 @@ public class TeststreckeFrame extends JFrame {
 
         pack();
         setLocationRelativeTo(null);
-        setResizable(false); // Fenstergröße fixieren
+        setResizable(false); 
         setVisible(true);
 
         werkzeugwagenTimer = new Timer(100, e -> aktualisierePosition(e, () -> bewegeFahrzeug(teststrecke.getWerkzeugwagen())));

@@ -19,20 +19,12 @@ public class Teststrecke {
         fahrzeug.stoppe();
     }
 
-    public void bewegeFahrzeug(Fahrzeug fahrzeug) {
-        fahrzeug.bewege();
-    }
-
     public Fahrzeug getWerkzeugwagen() {
         return werkzeugwagen;
     }
 
     public Fahrzeug getTransrapid() {
         return transrapid;
-    }
-
-    public boolean istFahrzeugInGarage(Fahrzeug fahrzeug) {
-        return fahrzeug.istInGarage();
     }
 
     public boolean istWeicheZurStreckeOffen() {
