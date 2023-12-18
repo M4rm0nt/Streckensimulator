@@ -45,22 +45,34 @@ public class TeststreckeFrame extends JFrame {
         // Reihe 2
         JPanel row2 = new JPanel();
         weicheZurStreckeOeffnenButton = new JButton("Weiche zur Strecke öffnen");
-        weicheZurStreckeOeffnenButton.addActionListener(e -> teststrecke.oeffneWeicheZurStrecke());
+        weicheZurStreckeOeffnenButton.addActionListener(e -> {
+            teststrecke.oeffneWeicheZurStrecke();
+            visualisierung.repaint();
+        });
         row2.add(weicheZurStreckeOeffnenButton);
 
         weicheZurStreckeSchliessenButton = new JButton("Weiche zur Strecke schließen");
-        weicheZurStreckeSchliessenButton.addActionListener(e -> teststrecke.schliesseWeicheZurStrecke());
+        weicheZurStreckeSchliessenButton.addActionListener(e -> {
+            teststrecke.schliesseWeicheZurStrecke();
+            visualisierung.repaint();
+        });
         row2.add(weicheZurStreckeSchliessenButton);
         mainControlPanel.add(row2);
 
         // Reihe 3
         JPanel row3 = new JPanel();
         weicheZurGarageOeffnenButton = new JButton("Weiche zur Garage öffnen");
-        weicheZurGarageOeffnenButton.addActionListener(e -> teststrecke.oeffneWeicheZurGarage());
+        weicheZurGarageOeffnenButton.addActionListener(e -> {
+            teststrecke.oeffneWeicheZurGarage();
+            visualisierung.repaint();
+        });
         row3.add(weicheZurGarageOeffnenButton);
 
         weicheZurGarageSchliessenButton = new JButton("Weiche zur Garage schließen");
-        weicheZurGarageSchliessenButton.addActionListener(e -> teststrecke.schliesseWeicheZurGarage());
+        weicheZurGarageSchliessenButton.addActionListener(e -> {
+            teststrecke.schliesseWeicheZurGarage();
+            visualisierung.repaint();
+        });
         row3.add(weicheZurGarageSchliessenButton);
         mainControlPanel.add(row3);
 

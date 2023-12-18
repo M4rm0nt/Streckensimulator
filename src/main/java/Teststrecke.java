@@ -28,25 +28,23 @@ public class Teststrecke {
     }
 
     public void starteWerkzeugwagen() {
-        if (!transrapidAufStrecke && istWeicheZurStreckeOffen() && !werkzeugwagenAufStrecke) {
+        if (werkzeugwagenAngehalten) {
+            werkzeugwagenAngehalten = false;
+        } else if (istWeicheZurStreckeOffen() && !transrapidAufStrecke && !werkzeugwagenAufStrecke) {
             werkzeugwagenAufStrecke = true;
-            werkzeugwagenPosition = 170;
+            werkzeugwagenPosition = 175;
             schliesseWeicheZurStrecke();
-        } else {
-            werkzeugwagenAufStrecke = true;
         }
-        werkzeugwagenAngehalten = false;
     }
 
     public void starteTransrapid() {
-        if (!werkzeugwagenAufStrecke && istWeicheZurStreckeOffen() && !transrapidAufStrecke) {
+        if (transrapidAngehalten) {
+            transrapidAngehalten = false;
+        } else if (istWeicheZurStreckeOffen() && !werkzeugwagenAufStrecke && !transrapidAufStrecke) {
             transrapidAufStrecke = true;
-            transrapidPosition = 170;
+            transrapidPosition = 175;
             schliesseWeicheZurStrecke();
-        } else {
-            transrapidAufStrecke = true;
         }
-        transrapidAngehalten = false;
     }
 
     public void stoppeWerkzeugwagen() {
