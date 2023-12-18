@@ -1,98 +1,46 @@
 public class Teststrecke {
-    private int werkzeugwagenPosition;
-    private int transrapidPosition;
-    private boolean werkzeugwagenAufStrecke;
-    private boolean transrapidAufStrecke;
+    private Fahrzeug werkzeugwagen;
+    private Fahrzeug transrapid;
     private boolean weicheZurStreckeOffen;
     private boolean weicheZurGarageOffen;
-    private boolean werkzeugwagenAngehalten;
-    private boolean transrapidAngehalten;
 
     public Teststrecke() {
-        werkzeugwagenPosition = -1; // -1 bedeutet, dass der Werkzeugwagen in der Garage ist
-        transrapidPosition = -1; // -1 bedeutet, dass der Transrapid in der Garage ist
-        werkzeugwagenAufStrecke = false;
-        transrapidAufStrecke = false;
+        werkzeugwagen = new Fahrzeug(this, "Werkzeugwagen");
+        transrapid = new Fahrzeug(this, "Transrapid");
         weicheZurStreckeOffen = false;
         weicheZurGarageOffen = false;
-        werkzeugwagenAngehalten = false;
-        transrapidAngehalten = false;
     }
 
-    public boolean istWerkzeugwagenInGarage() {
-        return werkzeugwagenPosition == -1;
+    public void starteFahrzeug(Fahrzeug fahrzeug) {
+        fahrzeug.starte();
     }
 
-    public boolean istTransrapidInGarage() {
-        return transrapidPosition == -1;
+    public void stoppeFahrzeug(Fahrzeug fahrzeug) {
+        fahrzeug.stoppe();
     }
 
-    public void starteWerkzeugwagen() {
-        if (werkzeugwagenAngehalten) {
-            werkzeugwagenAngehalten = false;
-        } else if (istWeicheZurStreckeOffen() && !transrapidAufStrecke && !werkzeugwagenAufStrecke) {
-            werkzeugwagenAufStrecke = true;
-            werkzeugwagenPosition = 175;
-            schliesseWeicheZurStrecke();
-        }
+    public void bewegeFahrzeug(Fahrzeug fahrzeug) {
+        fahrzeug.bewege();
     }
 
-    public void starteTransrapid() {
-        if (transrapidAngehalten) {
-            transrapidAngehalten = false;
-        } else if (istWeicheZurStreckeOffen() && !werkzeugwagenAufStrecke && !transrapidAufStrecke) {
-            transrapidAufStrecke = true;
-            transrapidPosition = 175;
-            schliesseWeicheZurStrecke();
-        }
+    public Fahrzeug getWerkzeugwagen() {
+        return werkzeugwagen;
     }
 
-    public void stoppeWerkzeugwagen() {
-        werkzeugwagenAngehalten = true;
+    public Fahrzeug getTransrapid() {
+        return transrapid;
     }
 
-    public void stoppeTransrapid() {
-        transrapidAngehalten = true;
-    }
-
-    public void bewegeWerkzeugwagen() {
-        if (werkzeugwagenAufStrecke && !werkzeugwagenAngehalten) {
-            werkzeugwagenPosition = (werkzeugwagenPosition + 5) % 360;
-            if (weicheZurGarageOffen && werkzeugwagenPosition == 170) {
-                werkzeugwagenAufStrecke = false;
-                schliesseWeicheZurGarage();
-            }
-        }
-    }
-
-    public void bewegeTransrapid() {
-        if (transrapidAufStrecke && !transrapidAngehalten) {
-            transrapidPosition = (transrapidPosition + 5) % 360;
-            if (weicheZurGarageOffen && transrapidPosition == 170) {
-                transrapidAufStrecke = false;
-                schliesseWeicheZurGarage();
-            }
-        }
-    }
-
-    public int getWerkzeugwagenPosition() {
-        return werkzeugwagenPosition;
-    }
-
-    public int getTransrapidPosition() {
-        return transrapidPosition;
+    public boolean istFahrzeugInGarage(Fahrzeug fahrzeug) {
+        return fahrzeug.istInGarage();
     }
 
     public boolean istWeicheZurStreckeOffen() {
         return weicheZurStreckeOffen;
     }
 
-    public boolean istWeicheZurGarageOffen() {
-        return weicheZurGarageOffen;
-    }
-
     public void oeffneWeicheZurStrecke() {
-        if (!transrapidAufStrecke && !werkzeugwagenAufStrecke && !weicheZurStreckeOffen) {
+        if (!werkzeugwagen.istAufStrecke() && !transrapid.istAufStrecke() && !weicheZurStreckeOffen) {
             weicheZurStreckeOffen = true;
         }
     }
@@ -101,11 +49,20 @@ public class Teststrecke {
         weicheZurStreckeOffen = false;
     }
 
+    public boolean istWeicheZurGarageOffen() {
+        return weicheZurGarageOffen;
+    }
+
     public void oeffneWeicheZurGarage() {
         weicheZurGarageOffen = true;
     }
 
     public void schliesseWeicheZurGarage() {
         weicheZurGarageOffen = false;
+    }
+
+    public boolean andereFahrzeugeAufStrecke(Fahrzeug fragendesFahrzeug) {
+        return (werkzeugwagen.istAufStrecke() && werkzeugwagen != fragendesFahrzeug) ||
+                (transrapid.istAufStrecke() && transrapid != fragendesFahrzeug);
     }
 }

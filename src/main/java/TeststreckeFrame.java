@@ -9,7 +9,6 @@ public class TeststreckeFrame extends JFrame {
     private JButton startButton;
     private JButton stopButton;
     private JButton weicheZurStreckeOeffnenButton;
-    private JButton weicheZurStreckeSchliessenButton;
     private JButton weicheZurGarageOeffnenButton;
     private JButton weicheZurGarageSchliessenButton;
     private Timer werkzeugwagenTimer;
@@ -51,12 +50,6 @@ public class TeststreckeFrame extends JFrame {
         });
         row2.add(weicheZurStreckeOeffnenButton);
 
-        weicheZurStreckeSchliessenButton = new JButton("Weiche zur Strecke schließen");
-        weicheZurStreckeSchliessenButton.addActionListener(e -> {
-            teststrecke.schliesseWeicheZurStrecke();
-            visualisierung.repaint();
-        });
-        row2.add(weicheZurStreckeSchliessenButton);
         mainControlPanel.add(row2);
 
         // Reihe 3
@@ -80,19 +73,20 @@ public class TeststreckeFrame extends JFrame {
 
         pack();
         setLocationRelativeTo(null);
+        setResizable(false); // Fenstergröße fixieren
         setVisible(true);
 
-        werkzeugwagenTimer = new Timer(100, this::aktualisiereWerkzeugwagenPosition);
-        transrapidTimer = new Timer(100, this::aktualisiereTransrapidPosition);
+        werkzeugwagenTimer = new Timer(100, e -> aktualisierePosition(e, () -> bewegeFahrzeug(teststrecke.getWerkzeugwagen())));
+        transrapidTimer = new Timer(100, e -> aktualisierePosition(e, () -> bewegeFahrzeug(teststrecke.getTransrapid())));
     }
 
     private void startFahrzeug(ActionEvent e) {
         String ausgewaehltesFahrzeug = (String) fahrzeugAuswahl.getSelectedItem();
         if ("Werkzeugwagen".equals(ausgewaehltesFahrzeug)) {
-            teststrecke.starteWerkzeugwagen();
+            teststrecke.starteFahrzeug(teststrecke.getWerkzeugwagen());
             werkzeugwagenTimer.start();
         } else if ("Transrapid".equals(ausgewaehltesFahrzeug)) {
-            teststrecke.starteTransrapid();
+            teststrecke.starteFahrzeug(teststrecke.getTransrapid());
             transrapidTimer.start();
         }
     }
@@ -100,21 +94,16 @@ public class TeststreckeFrame extends JFrame {
     private void stopFahrzeug(ActionEvent e) {
         String ausgewaehltesFahrzeug = (String) fahrzeugAuswahl.getSelectedItem();
         if ("Werkzeugwagen".equals(ausgewaehltesFahrzeug)) {
-            teststrecke.stoppeWerkzeugwagen();
+            teststrecke.stoppeFahrzeug(teststrecke.getWerkzeugwagen());
             werkzeugwagenTimer.stop();
         } else if ("Transrapid".equals(ausgewaehltesFahrzeug)) {
-            teststrecke.stoppeTransrapid();
+            teststrecke.stoppeFahrzeug(teststrecke.getTransrapid());
             transrapidTimer.stop();
         }
     }
 
-    private void aktualisiereWerkzeugwagenPosition(ActionEvent e) {
-        teststrecke.bewegeWerkzeugwagen();
-        visualisierung.repaint();
-    }
-
-    private void aktualisiereTransrapidPosition(ActionEvent e) {
-        teststrecke.bewegeTransrapid();
+    private void aktualisierePosition(ActionEvent e, Runnable bewegungsAktion) {
+        bewegungsAktion.run();
         visualisierung.repaint();
     }
 
@@ -124,4 +113,18 @@ public class TeststreckeFrame extends JFrame {
             new TeststreckeFrame(teststrecke);
         });
     }
+
+    private void bewegeFahrzeug(Fahrzeug fahrzeug) {
+        fahrzeug.bewege();
+        if (fahrzeug.istInGarage()) {
+            // Stoppen des Timers, wenn das Fahrzeug die Garage erreicht
+            if (fahrzeug == teststrecke.getWerkzeugwagen()) {
+                werkzeugwagenTimer.stop();
+            } else if (fahrzeug == teststrecke.getTransrapid()) {
+                transrapidTimer.stop();
+            }
+        }
+        visualisierung.repaint(); // Aktualisieren der Visualisierung
+    }
+
 }
