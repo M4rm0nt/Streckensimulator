@@ -1,29 +1,25 @@
 public class Fahrzeug {
-    private Teststrecke teststrecke;
-    private int position;
+    private Strecke strecke;
     private boolean aufStrecke;
-    private boolean angehalten;
     private final String bezeichnung;
+    private int position;
+    private boolean angehalten;
 
-    public Fahrzeug(Teststrecke teststrecke, String bezeichnung) {
-        this.teststrecke = teststrecke;
+    public Fahrzeug(Strecke strecke, String bezeichnung) {
+        this.strecke = strecke;
+        this.aufStrecke = false;
         this.bezeichnung = bezeichnung;
         this.position = -1; //
-        this.aufStrecke = false;
         this.angehalten = false;
-    }
-
-    public boolean istInGarage() {
-        return position == -1;
     }
 
     public void starte() {
         if (angehalten) {
             angehalten = false;
-        } else if (teststrecke.istWeicheZurStreckeOffen() && !aufStrecke && !teststrecke.andereFahrzeugeAufStrecke(this)) {
+        } else if (strecke.istWeicheZurStreckeOffen() && !aufStrecke && !strecke.andereFahrzeugeAufStrecke(this)) {
             aufStrecke = true;
             position = 175;
-            teststrecke.schliesseWeicheZurStrecke();
+            strecke.schliesseWeicheZurStrecke();
         }
     }
 
@@ -34,10 +30,10 @@ public class Fahrzeug {
     public void bewege() {
         if (aufStrecke && !angehalten) {
             position = (position + 5) % 360;
-            if (teststrecke.istWeicheZurGarageOffen() && position == 170) {
+            if (strecke.istWeicheZurGarageOffen() && position == 170) {
                 aufStrecke = false;
                 position = -1;
-                teststrecke.schliesseWeicheZurGarage();
+                strecke.schliesseWeicheZurGarage();
             }
         }
     }
@@ -50,11 +46,11 @@ public class Fahrzeug {
         return bezeichnung;
     }
 
-    public boolean istAngehalten() {
-        return angehalten;
-    }
-
     public boolean istAufStrecke() {
         return aufStrecke;
+    }
+
+    public boolean istInGarage() {
+        return position == -1;
     }
 }

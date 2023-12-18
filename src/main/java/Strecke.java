@@ -1,10 +1,10 @@
-public class Teststrecke {
+public class Strecke {
     private Fahrzeug werkzeugwagen;
     private Fahrzeug transrapid;
     private boolean weicheZurStreckeOffen;
     private boolean weicheZurGarageOffen;
 
-    public Teststrecke() {
+    public Strecke() {
         werkzeugwagen = new Fahrzeug(this, "Werkzeugwagen");
         transrapid = new Fahrzeug(this, "Transrapid");
         weicheZurStreckeOffen = false;
@@ -31,22 +31,22 @@ public class Teststrecke {
         return weicheZurStreckeOffen;
     }
 
+    public boolean istWeicheZurGarageOffen() {
+        return weicheZurGarageOffen;
+    }
+
     public void oeffneWeicheZurStrecke() {
         if (!werkzeugwagen.istAufStrecke() && !transrapid.istAufStrecke() && !weicheZurStreckeOffen) {
             weicheZurStreckeOffen = true;
         }
     }
 
-    public void schliesseWeicheZurStrecke() {
-        weicheZurStreckeOffen = false;
-    }
-
-    public boolean istWeicheZurGarageOffen() {
-        return weicheZurGarageOffen;
-    }
-
     public void oeffneWeicheZurGarage() {
         weicheZurGarageOffen = true;
+    }
+
+    public void schliesseWeicheZurStrecke() {
+        weicheZurStreckeOffen = false;
     }
 
     public void schliesseWeicheZurGarage() {
