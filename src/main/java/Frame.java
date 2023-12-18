@@ -20,7 +20,7 @@ public class Frame extends JFrame {
         setTitle("Strecke Visualisierung");
         setLayout(new BorderLayout());
 
-        visualisierung = new Visualisierung(strecke);
+        visualisierung = new Visualisierung(strecke, 150, 2);
         add(visualisierung, BorderLayout.CENTER);
 
         JPanel mainControlPanel = new JPanel();

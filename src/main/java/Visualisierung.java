@@ -3,9 +3,13 @@ import java.awt.*;
 
 public class Visualisierung extends JPanel {
     private Strecke strecke;
+    private int weicheLength;
+    private int weicheThickness;
 
-    public Visualisierung(Strecke strecke) {
+    public Visualisierung(Strecke strecke, int weicheLength, int weicheThickness) {
         this.strecke = strecke;
+        this.weicheLength = weicheLength;
+        this.weicheThickness = weicheThickness;
         setPreferredSize(new Dimension(400, 400));
     }
 
@@ -26,9 +30,11 @@ public class Visualisierung extends JPanel {
         int garageHeight = 125;
         graphics.drawRect(garageX, garageY, garageWidth, garageHeight);
 
-        int weicheX = 85 + verschiebung;;
+        int weicheX = 40 + verschiebung;;
         int weicheY = 200;
-        int weicheEndeX = 155 + verschiebung;
+        int weicheEndeX = weicheX + weicheLength;
+        Graphics2D g2d = (Graphics2D) graphics;
+        g2d.setStroke(new BasicStroke(weicheThickness));
         int weicheEndeYOben = 100;
         int weicheEndeYUnten = 300;
 
